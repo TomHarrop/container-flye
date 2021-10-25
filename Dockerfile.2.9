@@ -39,7 +39,7 @@ WORKDIR /flye
 RUN     git checkout -f 2.9 && \
         git submodule update --init --recursive
 
-RUN     make -j
+RUN     make
 
 ENV PATH="${PATH}:/flye/bin"
 

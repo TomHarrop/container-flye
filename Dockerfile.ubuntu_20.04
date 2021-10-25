@@ -20,6 +20,21 @@ RUN     . /etc/os-release \
         apt-get update && apt-get upgrade -y --fix-missing
 
 RUN     apt-get update && apt-get install -y  --no-install-recommends \
-            build-essential
+            build-essential \
+            git \
+            python3 \
+            python3-setuptools \
+            wget \
+            zlib1g-dev
 
-ENTRYPOINT ["/usr/bin/cat /etc/os-release"]
+RUN     git clone https://github.com/fenderglass/Flye /flye
+
+WORKDIR /flye
+RUN     git checkout -f 2.9 && \
+        git submodule update --init --recursive
+
+RUN     make -j
+
+ENV PATH="${PATH}:/flye/bin"
+
+ENTRYPOINT ["/flye/bin/flye"]
